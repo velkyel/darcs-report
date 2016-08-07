@@ -9,6 +9,6 @@ append
     unpull posthook python <path-to>/darcs-report.py email1 [email2, ..]
     unpull run-posthook
 
-into your <repo>/_darcs/prefs/defaults.
+into your _darcs/prefs/defaults.
 
 tested with darcs version 2.12.0 (release)
