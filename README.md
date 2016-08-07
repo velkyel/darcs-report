@@ -1,7 +1,5 @@
 # darcs-report
 
-usage:
-
 append
 
     apply posthook python <path-to>/darcs-report.py email1 [email2, ..]
