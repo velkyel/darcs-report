@@ -40,7 +40,7 @@ if prevhash is None:
     cmd = 'darcs changes --last 1 --xml-output'
 else:
     cmd = 'DARCS_DONT_ESCAPE_ISPRINT=1 darcs changes --from-hash "%s" --xml-output' % prevhash
-for el in getxml(cmd).findall('patch'):
+for el in reversed(getxml(cmd).findall('patch')):
     hash = el.attrib['hash']
     if hash == prevhash:
         continue
