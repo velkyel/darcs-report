@@ -4,6 +4,7 @@ import smtplib
 
 if len(sys.argv[1:]) < 1:
     print('no respondents?')
+    quit(1)
 
 respondents = ', '.join(sys.argv[1:])
 
