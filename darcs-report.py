@@ -1,6 +1,7 @@
 import os, sys
 import xml.etree.ElementTree as etree
 import smtplib
+import subprocess
 
 if len(sys.argv[1:]) < 1:
     print('no respondents?')
@@ -24,13 +25,23 @@ def getxml(cmd):
     sock.close()
     return tree
 
+def diffstat(diff):
+    p = subprocess.Popen('diffstat',
+                         stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+    p.stdin.write(diff)
+    res = p.communicate()[0]
+    p.stdin.close()
+    return res
+
 def send_report(patchname, author, hash):
     repo = os.path.split(os.getcwd())[-1]
     subject = '[%s] %s' % (repo, patchname)
     msg = "From: %s\nTo: %s\nSubject: %s\n" % (author, respondents, subject)
     sock = os.popen('darcs diff -u --hash "%s"' % hash)
-    msg += ''.join(sock.readlines()) + '\n'
+    diff = ''.join(sock.readlines())
     sock.close()
+    msg += '\n' + diffstat(diff) + '\n'
+    msg += diff + '\n'
     server = smtplib.SMTP('localhost')
     server.sendmail(author, respondents, msg)
     server.quit()
