@@ -7,7 +7,7 @@ if len(sys.argv[1:]) < 1:
     print('no respondents?')
     quit(1)
 
-respondents = ', '.join(sys.argv[1:])
+respondents = sys.argv[1:]
 
 def load_latest_hash():
     try:
@@ -36,7 +36,7 @@ def diffstat(diff):
 def send_report(patchname, author, hash):
     repo = os.path.split(os.getcwd())[-1]
     subject = '[%s] %s' % (repo, patchname)
-    msg = "From: %s\nTo: %s\nSubject: %s\n" % (author, respondents, subject)
+    msg = "From: %s\nTo: %s\nSubject: %s\n" % (author, ', '.join(respondents), subject)
     sock = os.popen('darcs diff -u --hash "%s"' % hash)
     diff = ''.join(sock.readlines())
     sock.close()
